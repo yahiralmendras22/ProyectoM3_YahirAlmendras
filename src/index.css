@@ -8,12 +8,12 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1rem;
-  background: #fbf9f6;     
-  border-bottom: 1px solid #e5e0da; 
+  background: #fbf9f6;
+  border-bottom: 1px solid #e5e0da;
 }
 
 .mainNav__link {
-  color: #999185;          
+  color: #999185;
   text-decoration: none;
   font-weight: 500;
   padding: 0.35rem 0.75rem;
@@ -22,8 +22,8 @@
 }
 
 .mainNav__link:hover {
-  color: #ffffff;          
-  background: #999185;     
+  color: #ffffff;
+  background: #999185;
 }
 
 /* ========================================
@@ -50,8 +50,8 @@ body {
     sans-serif;
   font-size: 1rem; 
   line-height: 1.5;
-  color: #2d2a26;          
-  background: #fdfbf7;     
+  color: #2d2a26;
+  background: #fdfbf7;
 }
 
 /* ========================================
@@ -68,19 +68,19 @@ body {
 
 .chatHeader {
   padding: 1rem;
-  border-bottom: 1px solid #e5e0da; 
+  border-bottom: 1px solid #e5e0da;
   background: #ffffff;
 }
 
 .chatHeader__title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #2d2a26;          
+  color: #2d2a26;
 }
 
 .chatHeader__subtitle {
   font-size: 0.875rem;
-  color: #857d73;         
+  color: #857d73;
 }
 
 .chatMessages {
@@ -92,14 +92,14 @@ body {
   flex-direction: column;
   gap: 0.75rem;
   overscroll-behavior-y: contain;
-  background: #fcfbfa;     
+  background: #fcfbfa;
 }
 
 .chatComposer {
   display: flex;
   gap: 0.5rem;
   padding: 0.75rem;
-  border-top: 1px solid #e5e0da;  
+  border-top: 1px solid #e5e0da;
   background: #ffffff;
 }
 
@@ -116,14 +116,14 @@ body {
 
 .message--character {
   align-self: flex-start; /* burbuja a la izquierda */
-  background: #f3f4f6;
-  color: #111827;
-  border: 1px solid #e5e7eb;
+  background: #fbf9f6;
+  color: #2d2a26;
+  border: 1px solid #e5e0da;
 }
 
 .message--user {
   align-self: flex-end; /* burbuja a la derecha */
-  background: #111827;
+  background: #999185;
   color: #ffffff;
 }
 
@@ -137,13 +137,15 @@ body {
   padding: 0.75rem;
   font-family: inherit;
   font-size: 1rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #e5e0da;
   border-radius: 0.75rem;
   outline: none;
+  background: #ffffff;
+  color: #2d2a26;
 }
 
 .chatComposer__input:focus {
-  border-color: #111827;
+  border-color: #999185;
 }
 
 .chatComposer__send {
@@ -152,7 +154,7 @@ body {
   font-size: 1rem;
   font-weight: 500;
   color: #ffffff;
-  background: #111827;
+  background: #999185;
   border: 0;
   border-radius: 0.75rem;
   cursor: pointer;
@@ -160,7 +162,7 @@ body {
 }
 
 .chatComposer__send:hover {
-  background: #374151;
+  background: #7d766b;
 }
 
 /* ========================================
@@ -192,14 +194,14 @@ body {
 
 @media (min-width: 1024px) {
   body {
-    background: #f3f4f6; /* fondo gris para que se vea el contenedor */
+    background: #e5e0da; /* fondo para que se vea el contenedor */
   }
 
   .chatApp {
     max-width: 64rem; /* limita ancho ~ 1024px */
     margin: 0 auto; /* centra horizontalmente */
-    border-left: 1px solid #e5e7eb;
-    border-right: 1px solid #e5e7eb;
+    border-left: 1px solid #e5e0da;
+    border-right: 1px solid #e5e0da;
   }
 
   .chatHeader {
@@ -237,7 +239,7 @@ body {
 
 .view p {
   margin-bottom: 1rem;
-  color: #4b5563;
+  color: #857d73;
 }
 
 .btn {
@@ -254,12 +256,12 @@ body {
 
 .btn--primary {
   color: #ffffff;
-  background: #111827;
+  background: #999185;
   border: 0;
 }
 
 .btn--primary:hover {
-  background: #374151;
+  background: #7d766b;
 }
 
 /* ========================================
@@ -306,7 +308,7 @@ body {
   margin: 0.5rem auto 0;
   padding: 0.25rem 0.75rem;
   background: #b91c1c;
-  color: white;
+  color: #ffffff;
   border: 0;
   border-radius: 0.25rem;
   font: inherit;
@@ -327,17 +329,17 @@ body {
   max-width: 32rem;
   margin: 1.5rem auto;
   background: #ffffff;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e5e0da;
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(45, 42, 38, 0.08);
 }
 
 .characterCard__image {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  background: #f3f4f6;
+  background: #fbf9f6;
 }
 
 .characterCard__body {
@@ -350,7 +352,7 @@ body {
 }
 
 .characterCard__meta {
-  color: #6b7280;
+  color: #857d73;
   margin-bottom: 0.75rem;
 }
 
@@ -376,7 +378,7 @@ body {
 .homeStatus {
   text-align: center;
   padding: 1rem;
-  color: #6b7280;
+  color: #857d73;
 }
 
 .homeStatus--error {
@@ -404,15 +406,17 @@ body {
   flex: 1;
   min-width: 0;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #e5e0da;
   border-radius: 0.5rem;
   font: inherit;
+  background: #ffffff;
+  color: #2d2a26;
 }
 
 .characterForm__button {
   padding: 0.5rem 1rem;
-  background: #111827;
-  color: white;
+  background: #999185;
+  color: #ffffff;
   border: 0;
   border-radius: 0.5rem;
   cursor: pointer;
