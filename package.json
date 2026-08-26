@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/yahiralmendras22/ProyectoM3_YahirAlmendras/issues"
   },
-  "homepage": "https://github.com/yahiralmendras22/ProyectoM3_YahirAlmendras#readme"
+  "homepage": "https://github.com/yahiralmendras22/ProyectoM3_YahirAlmendras#readme",
+  "dependencies": {
+    "@google/genai": "^2.19.0"
+  }
 }
