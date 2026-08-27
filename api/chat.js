@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/genai";
 
 const RETRY_AFTER_FALLBACK_SECONDS = 30;
 const MODEL_NAME = "gemini-flash-lite-latest";
