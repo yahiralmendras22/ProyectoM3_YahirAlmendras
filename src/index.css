@@ -18,7 +18,7 @@
   font-weight: 500;
   padding: 0.35rem 0.75rem;
   border-radius: 0.5rem;
-  transition: background 0.2s ease-in-out, color 0.2s ease-in-out; /* Optimizado */
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .mainNav__link:hover {
@@ -57,16 +57,12 @@ body {
 /* ========================================
    Layout principal del chat (mobile-first)
    ======================================== */
-
-/* ========================================
-   Layout principal del chat (mobile-first)
-   ======================================== */
-
+   
 .chatApp {
   display: flex;
   flex-direction: column;
-  height: 100vh;           
-  height: 100dvh;         
+  height: calc(100vh - 53px); /* Ajustado exacto para la barra de navegación */
+  height: calc(100dvh - 53px);
   background: #ffffff;
 }
 
@@ -92,6 +88,8 @@ body {
   border-radius: 0.5rem;
   line-height: 1;
   transition: background-color 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
 }
 
 .chatHeader__back:hover {
@@ -125,6 +123,26 @@ body {
   color: #857d73;
 }
 
+/* 🔥 ESTILOS RESTAURADOS: Lista de mensajes flexible */
+.chatMessages {
+  flex: 1;
+  overflow-y: auto;        
+  -webkit-overflow-scrolling: touch; 
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overscroll-behavior-y: contain;
+  background: #fcfbfa;
+}
+
+.chatComposer {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-top: 1px solid #e5e0da;
+  background: #ffffff;
+}
 
 /* ========================================
            Mensajes (burbujas)
@@ -138,14 +156,14 @@ body {
 }
 
 .message--character {
-  align-self: flex-start; /* burbuja a la izquierda */
+  align-self: flex-start;
   background: #fbf9f6;
   color: #2d2a26;
   border: 1px solid #e5e0da;
 }
 
 .message--user {
-  align-self: flex-end; /* burbuja a la derecha */
+  align-self: flex-end;
   background: #999185;
   color: #ffffff;
 }
@@ -181,7 +199,7 @@ body {
   border: 0;
   border-radius: 0.75rem;
   cursor: pointer;
-  white-space: nowrap; /* "Enviar" no se parte en 2 lineas */
+  white-space: nowrap;
 }
 
 .chatComposer__send:hover {
@@ -207,7 +225,7 @@ body {
   }
 
   .message {
-    max-width: 75%; /* burbujas mas estrechas */
+    max-width: 75%;
   }
 }
 
@@ -217,12 +235,12 @@ body {
 
 @media (min-width: 1024px) {
   body {
-    background: #e5e0da; /* fondo para que se vea el contenedor */
+    background: #e5e0da;
   }
 
   .chatApp {
-    max-width: 64rem; /* limita ancho ~ 1024px */
-    margin: 0 auto; /* centra horizontalmente */
+    max-width: 64rem;
+    margin: 0 auto;
     border-left: 1px solid #e5e0da;
     border-right: 1px solid #e5e0da;
   }
@@ -240,7 +258,7 @@ body {
   }
 
   .message {
-    max-width: 60%; /* burbujas mas estrechas en desktop */
+    max-width: 60%;
   }
 }
 
@@ -291,7 +309,6 @@ body {
       Estados del chat (nuevo en L3)
    ======================================== */
 
-/* Burbuja "escribiendo..." con animacion sutil. */
 .message--typing {
   font-style: italic;
   opacity: 0.7;
@@ -308,7 +325,6 @@ body {
   }
 }
 
-/* Burbuja roja para el estado de error. */
 .message--error {
   align-self: center;
   max-width: 90%;
@@ -319,7 +335,6 @@ body {
   text-align: center;
 }
 
-/* Composer deshabilitado mientras carga. */
 .chatComposer__input:disabled,
 .chatComposer__send:disabled {
   opacity: 0.5;
@@ -410,7 +425,6 @@ body {
   text-align: center;
 }
 
-/* Tablet+: 3 columnas */
 @media (min-width: 640px) {
   .characterGallery__grid {
     grid-template-columns: repeat(3, 1fr);
