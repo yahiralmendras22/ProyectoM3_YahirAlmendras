@@ -1,13 +1,11 @@
 import { getCharacterReply } from "../services/aiClient.js";
 import { debounce, wait } from "../services/debounce.js";
 import { getUserMessage } from "../ui/messages.js";
-
-const urlParams = new URLSearchParams(window.location.search);
-const selectedCharacter = urlParams.get("character") || "vegeta";
+import { getSelectedCharacterId } from "../services/storage.js";
 
 const state = {
-    characterId: selectedCharacter, 
-    messages: [{ role: "character", text: "Hola, soy tu personaje favorito. Qué quieres saber?" }],
+    characterId: "", 
+    messages: [],
     status: "idle",
     error: null,
     lastUserMessage: null,
@@ -15,6 +13,17 @@ const state = {
 };
 
 export function renderChat() {
+    // 🔥 ACTUALIZACIÓN CRÍTICA: Leemos el ID guardado JUSTO en el momento de renderizar la vista
+    const currentCharacter = getSelectedCharacterId() || "vegeta";
+    
+    // Si el estado está vacío (primera vez que entra), inicializamos los mensajes y el ID
+    if (!state.characterId || state.characterId !== currentCharacter) {
+        state.characterId = currentCharacter;
+        state.messages = [{ role: "character", text: "Hola, soy tu personaje favorito. Qué quieres saber?" }];
+        state.status = "idle";
+        state.error = null;
+    }
+
     const app = document.querySelector("#app");
     app.innerHTML = `
         <div class="chatApp">

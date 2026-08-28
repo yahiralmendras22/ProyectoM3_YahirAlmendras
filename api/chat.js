@@ -1,7 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 
 const RETRY_AFTER_FALLBACK_SECONDS = 30;
-const MODEL_NAME = "gemini-flash-lite-latest";
+const MODEL_NAME = "gemini-3.1-flash-lite"; 
+
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
