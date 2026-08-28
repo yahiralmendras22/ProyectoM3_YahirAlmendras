@@ -1,13 +1,8 @@
-import { getFirstCharacterByName } from "../services/rmApi.js";
-import { toCharacterProfile } from "../transform/character.js";
-import { renderCharacterCard } from "../ui/characterCard.js";
-import { getUserMessage } from "../ui/messages.js";
+import { CHARACTERS } from "../services/prompts.js";
+import { getSelectedCharacterId, setSelectedCharacterId } from "../services/storage.js";
 
 const state = {
-  status: "idle", // 'idle' | 'loading' | 'success' | 'error'
-  profile: null, // ViewModel cuando hay exito
-  errorMessage: null, // mensaje humano cuando hay error
-  currentName: "Rick", // nombre que esta cargado (o que vamos a buscar)
+  selectedCharacterId: getSelectedCharacterId() ?? CHARACTERS[0].id,
 };
 
 export function renderHome() {
@@ -17,23 +12,12 @@ export function renderHome() {
       <h1>Chatea con tu personaje favorito</h1>
       <p>Una experiencia conversacional con IA.</p>
 
-      <form class="characterForm" id="characterForm">
-        <input
-          class="characterForm__input"
-          id="characterInput"
-          type="text"
-          value="${state.currentName}"
-          placeholder="Nombre del personaje"
-          aria-label="Nombre del personaje"
-          ${state.status === "loading" ? "disabled" : ""}
-        />
-        <button class="characterForm__button" type="submit"
-                ${state.status === "loading" ? "disabled" : ""}>
-          Cambiar personaje
-        </button>
-      </form>
-
-      <div id="characterContainer">${renderContainer()}</div>
+      <section class="characterGallery">
+        <h2 class="characterGallery__title">Elegí con quién querés chatear</h2>
+        <div class="characterGallery__grid" id="characterGalleryGrid">
+          ${renderGallery()}
+        </div>
+      </section>
 
       <p style="text-align:center; margin-top: 2rem;">
         <a class="btn btn--primary" href="/chat">Empezar a chatear</a>
@@ -42,22 +26,26 @@ export function renderHome() {
   `;
 
   setupHome();
-
-  if (state.status === "idle") {
-    loadCharacter(state.currentName);
-  }
 }
 
-function renderContainer() {
-  if (state.status === "loading") {
-    return '<p class="homeStatus homeStatus--loading">Cargando personaje...</p>';
-  }
-
-  if (state.status === "error") {
-    return `<p class="homeStatus homeStatus--error">${state.errorMessage}</p>`;
-  }
-
-  return "";
+function renderGallery() {
+  return CHARACTERS.map(
+    (c) => `
+    <button
+      type="button"
+      class="characterGallery__item ${state.selectedCharacterId === c.id ? "characterGallery__item--selected" : ""}"
+      data-character-id="${c.id}"
+    >
+      <img
+        class="characterGallery__image"
+        src="${c.image}"
+        alt="${c.name}"
+      />
+      <h3 class="characterGallery__name">${c.name}</h3>
+      <p class="characterGallery__tagline">${c.tagline}</p>
+    </button>
+  `,
+  ).join("");
 }
 
 function setState(updates) {
@@ -66,46 +54,14 @@ function setState(updates) {
 }
 
 function setupHome() {
-  const $form = document.querySelector("#characterForm");
-  const $input = document.querySelector("#characterInput");
+  const $galleryGrid = document.querySelector("#characterGalleryGrid");
 
-  $form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const name = $input.value.trim();
+  $galleryGrid.addEventListener("click", (event) => {
+    const $button = event.target.closest("[data-character-id]");
+    if (!$button) return;
 
-    if (!name) {
-      setState({
-        status: "error",
-        errorMessage: "Escribi un nombre para buscar.",
-      });
-      return;
-    }
-
-    setState({ currentName: name });
-    loadCharacter(name);
+    const characterId = $button.dataset.characterId;
+    setSelectedCharacterId(characterId);
+    setState({ selectedCharacterId: characterId });
   });
-}
-
-// Orquestador: el corazon de la integracion.
-// Combina las 3 capas con manejo de estados visuales.
-async function loadCharacter(name) {
-  setState({ status: "loading", errorMessage: null });
-
-  try {
-    // 1. Services: traer datos crudos.
-    const raw = await getFirstCharacterByName(name);
-
-    // 2. Transform: convertir a ViewModel.
-    const profile = toCharacterProfile(raw);
-
-    // 3. UI: pintar la tarjeta.
-    setState({ status: "success", profile });
-    const $container = document.querySelector("#characterContainer");
-    renderCharacterCard($container, profile);
-  } catch (err) {
-    setState({
-      status: "error",
-      errorMessage: getUserMessage(err),
-    });
-  }
 }

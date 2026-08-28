@@ -1,6 +1,6 @@
 const MODEL_NAME = "gemini-flash-lite-latest";
 const MAX_OUTPUT_TOKENS = 200;
-const TEMPERATURE = 0.9; // alta para que Rick sea creativo
+const TEMPERATURE = 0.9;
 const MAX_TURNS_HISTORY = 12; // cuanto historial mandamos como contexto
 
 export function toApiMessages(uiMessages) {
@@ -25,7 +25,7 @@ export function buildPayload({ systemPrompt, uiMessages }) {
 }
 
 export function normalizeAIResponse(raw) {
-  const parts = raw?.candidates?.[0]?.content?.parts;
+  const parts = raw?.candidates?.[0]?.content?.parts ?? [];
 
   return parts
     .filter((p) => p && typeof p.text === "string")

@@ -3,6 +3,7 @@ import { debounce, wait } from "../services/debounce.js";
 import { getUserMessage } from "../ui/messages.js";
 
 const state = {
+    characterId: "vegeta", // fijo por ahora, hasta que armemos la galería
     messages: [{ role: "character", text: "Hola, soy tu personaje favorito. Qué quieres saber?" }],
     status: "idle",
     error: null,
@@ -120,7 +121,7 @@ function setupChat() {
 }
 
 async function sendMessage(text, isRetry = false) {
-    const nextMessages = isRetry ? state.messages: [...state.messages, { role: "user", text }];
+    const nextMessages = isRetry ? state.messages : [...state.messages, { role: "user", text }];
 
     setState({
         messages: nextMessages,
@@ -130,10 +131,10 @@ async function sendMessage(text, isRetry = false) {
     });
 
     try {
-        const reply = await getCharacterReply(nextMessages);
+        const reply = await getCharacterReply(state.characterId, nextMessages);
         setState({
             messages: [...nextMessages, { role: "character", text: reply }],
-            status: "loading",
+            status: "idle",
             error: null,
             lastUserMessage: null,
         });
@@ -144,12 +145,12 @@ async function sendMessage(text, isRetry = false) {
 
             for (let s = seconds; s > 0; s--) {
                 setState({ status: "loading", retryCountdown: s });
-                await wait (1000);
+                await wait(1000);
             }
 
             try {
                 setState({ status: "loading", retryCountdown: null });
-                const reply = await getCharacterReply(nextMessages);
+                const reply = await getCharacterReply(state.characterId, nextMessages);
                 setState({
                     messages: [...nextMessages, { role: "character", text: reply }],
                     status: "idle",
@@ -169,7 +170,7 @@ async function sendMessage(text, isRetry = false) {
 
         setState({
             status: "error",
-            error: getUserMessage(err),
+            error: getUserMessage(error),
         });
     }
 }
