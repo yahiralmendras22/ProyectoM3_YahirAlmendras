@@ -1,7 +1,9 @@
-import { GoogleGenerativeAI } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
 const RETRY_AFTER_FALLBACK_SECONDS = 30;
 const MODEL_NAME = "gemini-flash-lite-latest";
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export default async function handler(req, res) {
   // Validamos el metodo. Solo aceptamos POST.
@@ -10,30 +12,32 @@ export default async function handler(req, res) {
   }
 
   try {
-    //  Extrae el payload del body. El cliente nos manda shape de Gemini.
+    // Extrae el payload del body. El cliente nos manda shape de Gemini.
     const { contents, systemInstruction, generationConfig } = req.body ?? {};
 
-    //  Validacion minima: contents tiene que ser un array no vacio.
+    // Validacion minima: contents tiene que ser un array no vacio.
     if (!Array.isArray(contents) || contents.length === 0) {
       return res.status(400).json({ error: "contents required and must be non-empty" });
     }
 
-    //  Inicializar SDK con la API key de variables de entorno.
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({
+    // Llamar a Gemini con el SDK nuevo (@google/genai).
+    const result = await ai.models.generateContent({
       model: MODEL_NAME,
-      systemInstruction,
-      generationConfig,
+      contents,
+      config: {
+        systemInstruction,
+        ...generationConfig, // maxOutputTokens, temperature
+      },
     });
 
-    //  Llamar a Gemini con el historial completo.
-    const result = await model.generateContent({ contents });
-
-    //  Devolver al cliente la respuesta completa con shape de Gemini.
-    return res.status(200).json(result.response);
+    // Devolvemos el mismo "shape" que ya espera normalizeAIResponse en el front.
+    return res.status(200).json({
+      candidates: result.candidates,
+      usageMetadata: result.usageMetadata,
+    });
   } catch (error) {
-    // Manejo del 429 (rate limit) preservando el contrato de C6.
-    if (error.status === 429) {
+    // Manejo del 429 (rate limit) preservando el contrato existente.
+    if (error?.status === 429 || error?.code === 429) {
       console.warn("Rate limit hit on Gemini");
       return res.status(429).json({
         error: "Rate limit exceeded",
