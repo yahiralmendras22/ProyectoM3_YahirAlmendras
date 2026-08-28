@@ -2,7 +2,7 @@ import { send as sendToMock } from "./mockGeminiApi.js";
 import { getCharacterById } from "./prompts.js";
 import { buildPayload, normalizeAIResponse, getTrimmedHistory } from "../transform/chatPayload.js";
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 export async function getCharacterReply(characterId, uiMessages) {
   const character = getCharacterById(characterId);

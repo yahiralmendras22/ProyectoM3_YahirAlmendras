@@ -2,8 +2,11 @@ import { getCharacterReply } from "../services/aiClient.js";
 import { debounce, wait } from "../services/debounce.js";
 import { getUserMessage } from "../ui/messages.js";
 
+const urlParams = new URLSearchParams(window.location.search);
+const selectedCharacter = urlParams.get("character") || "vegeta";
+
 const state = {
-    characterId: "vegeta", // fijo por ahora, hasta que armemos la galería
+    characterId: selectedCharacter, 
     messages: [{ role: "character", text: "Hola, soy tu personaje favorito. Qué quieres saber?" }],
     status: "idle",
     error: null,
