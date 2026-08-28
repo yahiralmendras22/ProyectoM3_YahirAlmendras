@@ -1,16 +1,23 @@
 import { send as sendToMock } from "./mockGeminiApi.js";
-import { RICK_SYSTEM_PROMPT } from "./prompts.js";
+import { getCharacterById } from "./prompts.js";
 import { buildPayload, normalizeAIResponse, getTrimmedHistory } from "../transform/chatPayload.js";
 
-export async function getCharacterReply(uiMessages) {
+const USE_MOCK = true;
+
+export async function getCharacterReply(characterId, uiMessages) {
+  const character = getCharacterById(characterId);
+  if (!character) throw new Error(`Personaje desconocido: ${characterId}`);
+
   const trimmed = getTrimmedHistory(uiMessages);
 
   const payload = buildPayload({
-    systemPrompt: RICK_SYSTEM_PROMPT,
+    systemPrompt: character.systemPrompt,
     uiMessages: trimmed,
   });
 
-  const rawResponse = await sendToMock(payload);
+  const rawResponse = USE_MOCK
+    ? await sendToMock(payload)
+    : await sendToRealApi(payload);
 
   const text = normalizeAIResponse(rawResponse);
 
@@ -20,4 +27,20 @@ export async function getCharacterReply(uiMessages) {
   }
 
   return text;
+}
+
+async function sendToRealApi(payload) {
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const err = new Error("Error al llamar a la API de chat");
+    err.status = res.status;
+    throw err;
+  }
+
+  return res.json();
 }
