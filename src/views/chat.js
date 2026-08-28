@@ -25,14 +25,20 @@ export function renderChat() {
         state.error = null;
     }
 
-    // Buscamos de forma correcta el objeto del personaje actual dentro del array
+    // Buscamos el objeto del personaje actual dentro del array
     const characterData = CHARACTERS.find(c => c.id === state.characterId);
 
     const app = document.querySelector("#app");
     app.innerHTML = `
         <div class="chatApp">
-            <header class="chatHeader">
+            <header class="chatHeader" style="border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem;">
                 <div class="chatHeader__profile" style="display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0;">
+                    
+                    <!-- Botón para regresar a la galería de personajes -->
+                    <a href="/" class="chatHeader__back" style="text-decoration: none; font-size: 1.5rem; color: #333; padding: 0.2rem 0.5rem; transition: opacity 0.2s;" title="Volver al inicio">
+                        ←
+                    </a>
+
                     <img 
                         class="chatHeader__avatar" 
                         src="${characterData?.image || ''}" 
