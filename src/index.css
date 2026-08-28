@@ -58,6 +58,10 @@ body {
    Layout principal del chat (mobile-first)
    ======================================== */
 
+/* ========================================
+   Layout principal del chat (mobile-first)
+   ======================================== */
+
 .chatApp {
   display: flex;
   flex-direction: column;
@@ -66,16 +70,54 @@ body {
   background: #ffffff;
 }
 
+/* Rediseño de la cabecera del chat con soporte para perfil */
 .chatHeader {
   padding: 1rem;
   border-bottom: 1px solid #e5e0da;
   background: #ffffff;
 }
 
+.chatHeader__profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Botón de regreso interactivo */
+.chatHeader__back {
+  text-decoration: none;
+  font-size: 1.5rem;
+  color: #2d2a26;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  line-height: 1;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.chatHeader__back:hover {
+  background-color: #fbf9f6;
+}
+
+/* Avatar redondo alineado con tu galería */
+.chatHeader__avatar {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e5e0da;
+  background: #fbf9f6;
+}
+
+.chatHeader__meta {
+  display: flex;
+  flex-direction: column;
+}
+
 .chatHeader__title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #2d2a26;
+  line-height: 1.2;
 }
 
 .chatHeader__subtitle {
@@ -83,25 +125,6 @@ body {
   color: #857d73;
 }
 
-.chatMessages {
-  flex: 1;
-  overflow-y: auto;        
-  -webkit-overflow-scrolling: touch; 
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  overscroll-behavior-y: contain;
-  background: #fcfbfa;
-}
-
-.chatComposer {
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-top: 1px solid #e5e0da;
-  background: #ffffff;
-}
 
 /* ========================================
            Mensajes (burbujas)

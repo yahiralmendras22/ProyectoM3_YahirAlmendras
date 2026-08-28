@@ -14,10 +14,8 @@ const state = {
 };
 
 export function renderChat() {
-    // Leemos el ID guardado justo al renderizar la vista
     const currentCharacter = getSelectedCharacterId() || "vegeta";
     
-    // Si el estado está vacío o cambió de personaje, reiniciamos los mensajes y el ID
     if (!state.characterId || state.characterId !== currentCharacter) {
         state.characterId = currentCharacter;
         state.messages = [{ role: "character", text: "Hola, soy tu personaje favorito. Qué quieres saber?" }];
@@ -25,29 +23,28 @@ export function renderChat() {
         state.error = null;
     }
 
-    // Buscamos el objeto del personaje actual dentro del array
     const characterData = CHARACTERS.find(c => c.id === state.characterId);
 
     const app = document.querySelector("#app");
     app.innerHTML = `
         <div class="chatApp">
-            <header class="chatHeader" style="border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                <div class="chatHeader__profile" style="display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0;">
+            <header class="chatHeader">
+                <div class="chatHeader__profile">
                     
-                    <!-- Botón para regresar a la galería de personajes -->
-                    <a href="/" class="chatHeader__back" style="text-decoration: none; font-size: 1.5rem; color: #333; padding: 0.2rem 0.5rem; transition: opacity 0.2s;" title="Volver al inicio">
-                        ←
-                    </a>
+                    <!-- Botón de regreso -->
+                    <a href="/" class="chatHeader__back" title="Volver al inicio">←</a>
 
+                    <!-- Avatar circular -->
                     <img 
                         class="chatHeader__avatar" 
                         src="${characterData?.image || ''}" 
                         alt="${characterData?.name || 'Personaje'}" 
-                        style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #ccc;"
                     />
-                    <div class="chatHeader__meta" style="display: flex; flex-direction: column;">
-                        <h1 class="chatHeader__title" style="margin: 0; font-size: 1.5rem;">Chat con ${characterData?.name || 'Tu personaje'}</h1>
-                        <p class="chatHeader__subtitle" style="margin: 0; color: #666; font-size: 0.9rem;">${characterData?.tagline || ''}</p>
+                    
+                    <!-- Textos -->
+                    <div class="chatHeader__meta">
+                        <h1 class="chatHeader__title">Chat con ${characterData?.name || 'Tu personaje'}</h1>
+                        <p class="chatHeader__subtitle">${characterData?.tagline || ''}</p>
                     </div>
                 </div>
             </header>
