@@ -2,6 +2,7 @@ import { getCharacterReply } from "../services/aiClient.js";
 import { debounce, wait } from "../services/debounce.js";
 import { getUserMessage } from "../ui/messages.js";
 import { getSelectedCharacterId } from "../services/storage.js";
+import { CHARACTERS } from "../services/prompts.js"; 
 
 const state = {
     characterId: "", 
@@ -13,10 +14,10 @@ const state = {
 };
 
 export function renderChat() {
-    // 🔥 ACTUALIZACIÓN CRÍTICA: Leemos el ID guardado JUSTO en el momento de renderizar la vista
+    // Leemos el ID guardado justo al renderizar la vista
     const currentCharacter = getSelectedCharacterId() || "vegeta";
     
-    // Si el estado está vacío (primera vez que entra), inicializamos los mensajes y el ID
+    // Si el estado está vacío o cambió de personaje, reiniciamos los mensajes y el ID
     if (!state.characterId || state.characterId !== currentCharacter) {
         state.characterId = currentCharacter;
         state.messages = [{ role: "character", text: "Hola, soy tu personaje favorito. Qué quieres saber?" }];
@@ -24,12 +25,25 @@ export function renderChat() {
         state.error = null;
     }
 
+    // Buscamos de forma correcta el objeto del personaje actual dentro del array
+    const characterData = CHARACTERS.find(c => c.id === state.characterId);
+
     const app = document.querySelector("#app");
     app.innerHTML = `
         <div class="chatApp">
             <header class="chatHeader">
-                <h1 class="chatHeader__title">Chat</h1>
-                <p class="chatHeader__subtitle">Con tu personaje favorito</p>
+                <div class="chatHeader__profile" style="display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0;">
+                    <img 
+                        class="chatHeader__avatar" 
+                        src="${characterData?.image || ''}" 
+                        alt="${characterData?.name || 'Personaje'}" 
+                        style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #ccc;"
+                    />
+                    <div class="chatHeader__meta" style="display: flex; flex-direction: column;">
+                        <h1 class="chatHeader__title" style="margin: 0; font-size: 1.5rem;">Chat con ${characterData?.name || 'Tu personaje'}</h1>
+                        <p class="chatHeader__subtitle" style="margin: 0; color: #666; font-size: 0.9rem;">${characterData?.tagline || ''}</p>
+                    </div>
+                </div>
             </header>
 
             <main class="chatMessages" id="chatMessages" aria-live="polite">
