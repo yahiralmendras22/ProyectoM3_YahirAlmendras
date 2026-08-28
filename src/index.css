@@ -222,7 +222,7 @@ body {
 }
 
 /* ========================================
-   7. Vistas Home / About / NotFound
+      View ( Home / About / NotFound )
    ======================================== */
 
 .view {
@@ -265,7 +265,7 @@ body {
 }
 
 /* ========================================
-   8. Estados del chat (nuevo en L3)
+      Estados del chat (nuevo en L3)
    ======================================== */
 
 /* Burbuja "escribiendo..." con animacion sutil. */
@@ -321,109 +321,83 @@ body {
 }
 
 /* ========================================
-   9. Tarjeta de personaje (nuevo en L4)
+     Galería de personajes (Home)
    ======================================== */
-.characterCard {
-  display: flex;
-  flex-direction: column;
-  max-width: 32rem;
-  margin: 1.5rem auto;
-  background: #ffffff;
-  border: 1px solid #e5e0da;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(45, 42, 38, 0.08);
-}
 
-.characterCard__image {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  background: #fbf9f6;
-}
-
-.characterCard__body {
-  padding: 1rem 1.25rem;
-}
-
-.characterCard__name {
-  font-size: 1.25rem;
-  margin-bottom: 0.25rem;
-}
-
-.characterCard__meta {
-  color: #857d73;
-  margin-bottom: 0.75rem;
-}
-
-.characterCard__detail {
-  margin-bottom: 0.25rem;
-  font-size: 0.95rem;
-}
-
-/* Tablet+: tarjeta horizontal */
-@media (min-width: 640px) {
-  .characterCard {
-    flex-direction: row;
-    max-width: 40rem;
-  }
-  .characterCard__image {
-    width: 14rem;
-    aspect-ratio: auto;
-    flex-shrink: 0;
-  }
-}
-
-/* Estados de la home */
-.homeStatus {
-  text-align: center;
-  padding: 1rem;
-  color: #857d73;
-}
-
-.homeStatus--error {
-  color: #b91c1c;
-  background: #fee2e2;
-  border-radius: 0.5rem;
-  margin: 1rem;
-}
-
-.homeStatus--loading {
-  font-style: italic;
-  animation: typing-pulse 1.2s ease-in-out infinite;
-}
-
-/* Form de cambiar personaje */
-.characterForm {
-  display: flex;
-  gap: 0.5rem;
-  max-width: 32rem;
-  margin: 0 auto 1rem;
+.characterGallery {
+  margin: 2rem auto;
+  max-width: 40rem;
   padding: 0 1rem;
 }
 
-.characterForm__input {
-  flex: 1;
-  min-width: 0;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #e5e0da;
-  border-radius: 0.5rem;
-  font: inherit;
-  background: #ffffff;
-  color: #2d2a26;
+.characterGallery__title {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
-.characterForm__button {
-  padding: 0.5rem 1rem;
-  background: #999185;
-  color: #ffffff;
-  border: 0;
-  border-radius: 0.5rem;
+.characterGallery__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.characterGallery__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #e5e0da;
+  border-radius: 1rem;
   cursor: pointer;
   font: inherit;
+  color: inherit;
+  transition: border-color 0.2s ease-in-out, transform 0.15s ease-in-out;
 }
 
-.characterForm__button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.characterGallery__item:hover {
+  border-color: #999185;
+  transform: translateY(-2px);
+}
+
+.characterGallery__item--selected {
+  border-width: 2px;
+  border-color: #999185;
+  background: #fbf9f6;
+}
+
+.characterGallery__image {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  background: #fbf9f6;
+}
+
+.characterGallery__name {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.characterGallery__tagline {
+  font-size: 0.85rem;
+  color: #857d73;
+  text-align: center;
+}
+
+/* Tablet+: 3 columnas */
+@media (min-width: 640px) {
+  .characterGallery__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #857d73;
+  border-top: 1px solid #e5e0da;
 }
