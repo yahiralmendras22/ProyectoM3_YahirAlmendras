@@ -14,24 +14,3 @@ export function router() {
   const render = routes[path] || renderNotFound;
   render();
 }
-
-export function navigateTo(path) {
-  window.history.pushState({}, "", path);
-  router();
-}
-
-export function initRouter() {
-  // Interceptar clicks en cualquier <a> interno
-  document.addEventListener("click", (e) => {
-    const link = e.target.closest("a");
-    if (!link) return;
-    if (link.origin !== window.location.origin) return; // links externos, dejalos pasar
-    e.preventDefault();
-    navigateTo(link.pathname);
-  });
-
-  // Botones atrás/adelante del navegador
-  window.addEventListener("popstate", router);
-
-  router(); // render inicial
-}
