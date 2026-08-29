@@ -1,4 +1,3 @@
-const MODEL_NAME = "gemini-flash-lite-latest";
 const MAX_OUTPUT_TOKENS = 200;
 const TEMPERATURE = 0.9;
 const MAX_TURNS_HISTORY = 12; // cuanto historial mandamos como contexto
@@ -12,7 +11,6 @@ export function toApiMessages(uiMessages) {
 
 export function buildPayload({ systemPrompt, uiMessages }) {
   return {
-    model: MODEL_NAME,
     systemInstruction: {
       parts: [{ text: systemPrompt }],
     },
