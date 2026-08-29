@@ -425,7 +425,24 @@ body {
   text-align: center;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
+  .chatHeader {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .chatMessages {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .chatComposer {
+    padding: 1rem 1.5rem;
+  }
+
+  .message {
+    max-width: 75%;
+  }
+
   .characterGallery__grid {
     grid-template-columns: repeat(3, 1fr);
   }
