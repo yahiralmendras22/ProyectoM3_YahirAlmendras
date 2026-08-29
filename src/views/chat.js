@@ -35,7 +35,7 @@ export function renderChat() {
                     <a href="/" class="chatHeader__back" title="Volver al inicio">←</a>
 
                     <!-- Avatar circular -->
-                    <img 
+                    <img    
                         class="chatHeader__avatar" 
                         src="${characterData?.image || ''}" 
                         alt="${characterData?.name || 'Personaje'}" 
@@ -149,6 +149,20 @@ function setupChat() {
     $input.focus();
 }
 
+// Intenta pedir la respuesta del personaje y, si tiene éxito, actualiza
+// el estado a "idle" con el mensaje agregado. Se usa tanto en el intento
+// inicial como en el reintento automático post-429, para no duplicar
+// el bloque de "éxito" en dos lugares distintos.
+async function attemptSend(nextMessages) {
+    const reply = await getCharacterReply(state.characterId, nextMessages);
+    setState({
+        messages: [...nextMessages, { role: "character", text: reply }],
+        status: "idle",
+        error: null,
+        lastUserMessage: null,
+    });
+}
+
 async function sendMessage(text, isRetry = false) {
     const nextMessages = isRetry ? state.messages : [...state.messages, { role: "user", text }];
 
@@ -160,13 +174,7 @@ async function sendMessage(text, isRetry = false) {
     });
 
     try {
-        const reply = await getCharacterReply(state.characterId, nextMessages);
-        setState({
-            messages: [...nextMessages, { role: "character", text: reply }],
-            status: "idle",
-            error: null,
-            lastUserMessage: null,
-        });
+        await attemptSend(nextMessages);
 
     } catch (error) {
         if (error.status === 429) {
@@ -179,13 +187,7 @@ async function sendMessage(text, isRetry = false) {
 
             try {
                 setState({ status: "loading", retryCountdown: null });
-                const reply = await getCharacterReply(state.characterId, nextMessages);
-                setState({
-                    messages: [...nextMessages, { role: "character", text: reply }],
-                    status: "idle",
-                    error: null,
-                    lastUserMessage: null,
-                });
+                await attemptSend(nextMessages);
                 return;
 
             } catch (errorRetry) {

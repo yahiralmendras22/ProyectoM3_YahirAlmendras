@@ -37,8 +37,10 @@ async function sendToRealApi(payload) {
   });
 
   if (!res.ok) {
-    const err = new Error("Error al llamar a la API de chat");
+    const body = await res.json().catch(() => ({}));
+    const err = new Error(body.error || "Error al llamar a la API de chat");
     err.status = res.status;
+    err.retryAfterSeconds = body.retryAfterSeconds;
     throw err;
   }
 
