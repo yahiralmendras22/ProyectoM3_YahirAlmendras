@@ -208,7 +208,12 @@ async function sendMessage(text, isRetry = false) {
 
 function scrollToBottom() {
     const $messages = document.querySelector("#chatMessages");
-    if ($messages) {
+    if (!$messages) return;
+
+    const wasNearBottom =
+        $messages.scrollHeight - $messages.scrollTop - $messages.clientHeight < 150;
+
+    if (wasNearBottom) {
         $messages.scrollTop = $messages.scrollHeight;
     }
 }
