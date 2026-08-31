@@ -61,87 +61,146 @@ body {
 .chatApp {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 53px); /* Ajustado exacto para la barra de navegación */
+  height: calc(100vh - 53px);
   height: calc(100dvh - 53px);
   background: #ffffff;
 }
 
-/* Rediseño de la cabecera del chat con soporte para perfil */
-.chatHeader {
-  padding: 1rem;
-  border-bottom: 1px solid #e5e0da;
-  background: #ffffff;
-}
-
-.chatHeader__profile {
+.chatSidebar {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 1rem;
-}
-
-/* Botón de regreso interactivo */
-.chatHeader__back {
-  text-decoration: none;
-  font-size: 1.5rem;
-  color: #2d2a26;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.5rem;
-  line-height: 1;
-  transition: background-color 0.2s ease-in-out;
-  display: inline-flex;
-  align-items: center;
-}
-
-.chatHeader__back:hover {
-  background-color: #fbf9f6;
-}
-
-/* Avatar redondo alineado con tu galería */
-.chatHeader__avatar {
-  width: 3.25rem;
-  height: 3.25rem;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid #e5e0da;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  border-bottom: 1px solid #e5e0da;
   background: #fbf9f6;
 }
 
-.chatHeader__meta {
+.chatSidebar__title {
+  display: none;
+}
+
+.chatSidebar__list {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.chatSidebar__item {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  width: 4rem;
+  padding: 0.35rem;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font: inherit;
 }
 
-.chatHeader__title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2d2a26;
-  line-height: 1.2;
+.chatSidebar__item--active {
+  border-color: #999185;
+  background: #ffffff;
 }
 
-.chatHeader__subtitle {
-  font-size: 0.875rem;
+.chatSidebar__avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e5e0da;
+  background: #ffffff;
+}
+
+.chatSidebar__name {
+  max-width: 4rem;
+  font-size: 0.7rem;
+  color: #857d73;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chatSidebar__empty {
+  font-size: 0.8rem;
   color: #857d73;
 }
 
-/* 🔥 ESTILOS RESTAURADOS: Lista de mensajes flexible */
-.chatMessages {
-  flex: 1;
-  overflow-y: auto;        
-  -webkit-overflow-scrolling: touch; 
-  padding: 1rem;
+.chatMain {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  overscroll-behavior-y: contain;
-  background: #fcfbfa;
+  flex: 1;
+  min-height: 0;
 }
 
-.chatComposer {
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-top: 1px solid #e5e0da;
-  background: #ffffff;
+@media (min-width: 1024px) {
+  body {
+    background: #e5e0da;
+  }
+
+  .chatApp {
+    flex-direction: row;
+    max-width: 64rem;
+    margin: 0 auto;
+    border-left: 1px solid #e5e0da;
+    border-right: 1px solid #e5e0da;
+  }
+
+  .chatSidebar {
+    flex-direction: column;
+    align-items: stretch;
+    width: 14rem;
+    flex-shrink: 0;
+    overflow-x: visible;
+    overflow-y: auto;
+    border-bottom: 0;
+    border-right: 1px solid #e5e0da;
+  }
+
+  .chatSidebar__title {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    color: #2d2a26;
+  }
+
+  .chatSidebar__list {
+    flex-direction: column;
+  }
+
+  .chatSidebar__item {
+    flex-direction: row;
+    justify-content: flex-start;
+    width: auto;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .chatSidebar__name {
+    max-width: none;
+    font-size: 0.85rem;
+  }
+
+  .chatHeader {
+    padding: 1.5rem 2rem;
+  }
+
+  .chatMessages {
+    padding: 2rem;
+  }
+
+  .chatComposer {
+    padding: 1.5rem 2rem;
+  }
+
+  .message {
+    max-width: 60%;
+  }
 }
 
 /* ========================================
