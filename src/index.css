@@ -70,65 +70,73 @@ body {
 
 .chatSidebar {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  overflow-x: auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
   border-bottom: 1px solid #e5e0da;
   background: #fbf9f6;
-  /* Mantiene un desplazamiento suave en móviles */
-  -webkit-overflow-scrolling: touch; 
+  -webkit-overflow-scrolling: touch;
 }
 
 .chatSidebar__title {
-  display: none;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #857d73;
+  padding-left: 0.25rem;
 }
 
 .chatSidebar__list {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
 }
 
 .chatSidebar__item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
   flex-shrink: 0;
-  width: auto; /* Cambiado de 4rem a auto para adaptarse al contenido */
-  min-width: 4.5rem;
-  padding: 0.35rem 0.5rem;
-  background: transparent;
-  border: 2px solid transparent;
-  border-radius: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  background: #ffffff;
+  border: 1px solid #e5e0da;
+  border-radius: 2rem;
   cursor: pointer;
   font: inherit;
+  transition: all 0.2s ease-in-out;
 }
 
 .chatSidebar__item--active {
   border-color: #999185;
-  background: #ffffff;
+  background: #999185;
 }
 
 .chatSidebar__avatar {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #e5e0da;
   background: #ffffff;
+  flex-shrink: 0;
 }
 
 .chatSidebar__name {
-  font-size: 0.75rem;
-  color: #857d73;
-  text-align: center;
-  white-space: normal; /* Permite envolver el texto si es largo */
-  word-break: break-word; /* Rompe palabras largas si es necesario */
-  line-height: 1.1;
-  max-width: 5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #2d2a26;
+  white-space: nowrap;
+}
+
+.chatSidebar__item--active .chatSidebar__name {
+  color: #ffffff;
 }
 
 .chatSidebar__empty {
@@ -555,6 +563,7 @@ body {
     align-items: stretch;
     width: 14rem;
     flex-shrink: 0;
+    padding: 1rem;
     overflow-x: visible;
     overflow-y: auto;
     border-bottom: 0;
@@ -565,11 +574,16 @@ body {
     display: block;
     margin-bottom: 0.75rem;
     font-size: 1rem;
+    text-transform: none;
+    letter-spacing: normal;
     color: #2d2a26;
+    padding-left: 0;
   }
 
   .chatSidebar__list {
     flex-direction: column;
+    overflow-x: visible;
+    padding-bottom: 0;
   }
 
   .chatSidebar__item {
@@ -578,11 +592,29 @@ body {
     width: auto;
     gap: 0.75rem;
     padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .chatSidebar__item--active {
+    border-color: #999185;
+    background: #ffffff;
+  }
+
+  .chatSidebar__avatar {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   .chatSidebar__name {
     max-width: none;
     font-size: 0.85rem;
+    color: #857d73;
+  }
+
+  .chatSidebar__item--active .chatSidebar__name {
+    color: #2d2a26;
   }
 
   .chatHeader {
