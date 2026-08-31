@@ -1,4 +1,33 @@
 /* ========================================
+            Reset mínimo
+   ======================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #2d2a26;
+  background: #fdfbf7;
+}
+
+
+/* ========================================
             Navegación principal
    ======================================== */
 
@@ -24,35 +53,6 @@
 .mainNav__link:hover {
   color: #ffffff;
   background: #999185;
-}
-
-
-/* ========================================
-                Reset mínimo
-   ======================================== */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-size: 16px;
-}
-
-body {
-  font-family:
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    sans-serif;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #2d2a26;
-  background: #fdfbf7;
 }
 
 
@@ -142,117 +142,83 @@ body {
 
 
 /* ========================================
-        FOTO DEL PERSONAJE EN EL HEADER
+        Header del Chat y Botón Volver
    ======================================== */
 
+.chatHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e0da;
+  background: #ffffff;
+}
+
+.chatHeader__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #2d2a26;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s ease;
+  line-height: 1;
+}
+
+.chatHeader__back:hover {
+  background-color: #fbf9f6;
+}
+
 .chatHeader__avatar {
-  width: 80px;
-  height: 80px;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #e5e0da;
   background: #ffffff;
+  flex-shrink: 0;
 }
 
-
-/* ========================================
-                  Desktop
-   ======================================== */
-
-@media (min-width: 1024px) {
-  body {
-    background: #e5e0da;
-  }
-
-  .chatApp {
-    flex-direction: row;
-    max-width: 64rem;
-    margin: 0 auto;
-    border-left: 1px solid #e5e0da;
-    border-right: 1px solid #e5e0da;
-  }
-
-  .chatSidebar {
-    flex-direction: column;
-    align-items: stretch;
-    width: 14rem;
-    flex-shrink: 0;
-    overflow-x: visible;
-    overflow-y: auto;
-    border-bottom: 0;
-    border-right: 1px solid #e5e0da;
-  }
-
-  .chatSidebar__title {
-    display: block;
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
-    color: #2d2a26;
-  }
-
-  .chatSidebar__list {
-    flex-direction: column;
-  }
-
-  .chatSidebar__item {
-    flex-direction: row;
-    justify-content: flex-start;
-    width: auto;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
-  }
-
-  .chatSidebar__name {
-    max-width: none;
-    font-size: 0.85rem;
-  }
-
-  .chatHeader {
-    padding: 1.5rem 2rem;
-  }
-
-  .chatMessages {
-    padding: 2rem;
-  }
-
-  .chatComposer {
-    padding: 1.5rem 2rem;
-  }
-
-  .message {
-    max-width: 60%;
-  }
+.chatHeader__info {
+  display: flex;
+  flex-direction: column;
 }
 
-
-/* ========================================
-            Mensajes (burbujas)
-   ======================================== */
-
-.message {
-  max-width: 85%;
-  padding: 0.75rem 1rem;
-  border-radius: 1rem;
-  word-wrap: break-word;
-}
-
-.message--character {
-  align-self: flex-start;
-  background: #fbf9f6;
+.chatHeader__title {
+  font-size: 1.125rem;
+  font-weight: 600;
   color: #2d2a26;
-  border: 1px solid #e5e0da;
+  line-height: 1.2;
 }
 
-.message--user {
-  align-self: flex-end;
-  background: #999185;
-  color: #ffffff;
+.chatHeader__subtitle {
+  font-size: 0.85rem;
+  color: #857d73;
 }
 
 
 /* ========================================
-        Composer (input + boton)
+            Área de Mensajes y Composer
    ======================================== */
+
+.chatMessages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.chatComposer {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-top: 1px solid #e5e0da;
+  background: #ffffff;
+}
 
 .chatComposer__input {
   flex: 1;
@@ -288,67 +254,83 @@ body {
   background: #7d766b;
 }
 
-
-/* ========================================
-       Tablet: 768px en adelante
-   ======================================== */
-
-@media (min-width: 768px) {
-  .chatHeader {
-    padding: 1.25rem 1.5rem;
-  }
-
-  .chatMessages {
-    padding: 1.5rem;
-    gap: 1rem;
-  }
-
-  .chatComposer {
-    padding: 1rem 1.5rem;
-  }
-
-  .message {
-    max-width: 75%;
-  }
+.chatComposer__input:disabled,
+.chatComposer__send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 
 /* ========================================
-       Desktop: 1024px en adelante
+            Mensajes (burbujas)
    ======================================== */
 
-@media (min-width: 1024px) {
-  body {
-    background: #e5e0da;
-  }
+.message {
+  max-width: 85%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  word-wrap: break-word;
+}
 
-  .chatApp {
-    max-width: 64rem;
-    margin: 0 auto;
-    border-left: 1px solid #e5e0da;
-    border-right: 1px solid #e5e0da;
-  }
+.message--character {
+  align-self: flex-start;
+  background: #fbf9f6;
+  color: #2d2a26;
+  border: 1px solid #e5e0da;
+}
 
-  .chatHeader {
-    padding: 1.5rem 2rem;
-  }
+.message--user {
+  align-self: flex-end;
+  background: #999185;
+  color: #ffffff;
+}
 
-  .chatMessages {
-    padding: 2rem;
-  }
+.message--typing {
+  font-style: italic;
+  opacity: 0.7;
+  animation: typing-pulse 1.2s ease-in-out infinite;
+}
 
-  .chatComposer {
-    padding: 1.5rem 2rem;
+@keyframes typing-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
   }
+  50% {
+    opacity: 0.9;
+  }
+}
 
-  .message {
-    max-width: 60%;
-  }
+.message--error {
+  align-self: center;
+  max-width: 90%;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.message__retry {
+  display: block;
+  margin: 0.5rem auto 0;
+  padding: 0.25rem 0.75rem;
+  background: #b91c1c;
+  color: #ffffff;
+  border: 0;
+  border-radius: 0.25rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.message__retry:hover {
+  background: #991b1b;
 }
 
 
 /* ========================================
-       View ( Home / About / NotFound )
+        Vistas y Componentes Secundarios
    ======================================== */
 
 .view {
@@ -390,66 +372,7 @@ body {
   background: #7d766b;
 }
 
-
-/* ========================================
-       Estados del chat (nuevo en L3)
-   ======================================== */
-
-.message--typing {
-  font-style: italic;
-  opacity: 0.7;
-  animation: typing-pulse 1.2s ease-in-out infinite;
-}
-
-@keyframes typing-pulse {
-  0%,
-  100% {
-    opacity: 0.4;
-  }
-
-  50% {
-    opacity: 0.9;
-  }
-}
-
-.message--error {
-  align-self: center;
-  max-width: 90%;
-  background: #fee2e2;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-.chatComposer__input:disabled,
-.chatComposer__send:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.message__retry {
-  display: block;
-  margin: 0.5rem auto 0;
-  padding: 0.25rem 0.75rem;
-  background: #b91c1c;
-  color: #ffffff;
-  border: 0;
-  border-radius: 0.25rem;
-  font: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-.message__retry:hover {
-  background: #991b1b;
-}
-
-
-/* ========================================
-      Galería de personajes (Home)
-   ======================================== */
-
+/* Galería de personajes (Home) */
 .characterGallery {
   margin: 2rem auto;
   max-width: 40rem;
@@ -513,11 +436,7 @@ body {
   text-align: center;
 }
 
-
-/* ========================================
-       Sobre los personajes (About)
-   ======================================== */
-
+/* Sobre los personajes (About) */
 .aboutList {
   display: flex;
   flex-direction: column;
@@ -568,22 +487,20 @@ body {
   margin-bottom: 0;
 }
 
-@media (min-width: 768px) {
-  .aboutCard {
-    padding: 1.25rem 1.5rem;
-  }
-
-  .aboutCard__image {
-    width: 5rem;
-    height: 5rem;
-  }
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #857d73;
+  border-top: 1px solid #e5e0da;
 }
 
 
 /* ========================================
-        Responsive adicional
+            Media Queries (Responsive)
    ======================================== */
 
+/* Tablet: 768px en adelante */
 @media (min-width: 768px) {
   .chatHeader {
     padding: 1.25rem 1.5rem;
@@ -605,17 +522,83 @@ body {
   .characterGallery__grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .aboutCard {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .aboutCard__image {
+    width: 5rem;
+    height: 5rem;
+  }
 }
 
+/* Desktop: 1024px en adelante */
+@media (min-width: 1024px) {
+  body {
+    background: #e5e0da;
+  }
 
-/* ========================================
-                 Footer
-   ======================================== */
+  .chatApp {
+    flex-direction: row;
+    max-width: 64rem;
+    margin: 0 auto;
+    border-left: 1px solid #e5e0da;
+    border-right: 1px solid #e5e0da;
+  }
 
-.footer {
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.85rem;
-  color: #857d73;
-  border-top: 1px solid #e5e0da;
+  .chatSidebar {
+    flex-direction: column;
+    align-items: stretch;
+    width: 14rem;
+    flex-shrink: 0;
+    overflow-x: visible;
+    overflow-y: auto;
+    border-bottom: 0;
+    border-right: 1px solid #e5e0da;
+  }
+
+  .chatSidebar__title {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    color: #2d2a26;
+  }
+
+  .chatSidebar__list {
+    flex-direction: column;
+  }
+
+  .chatSidebar__item {
+    flex-direction: row;
+    justify-content: flex-start;
+    width: auto;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .chatSidebar__name {
+    max-width: none;
+    font-size: 0.85rem;
+  }
+
+  .chatHeader {
+    padding: 1.5rem 2rem;
+  }
+
+  .chatHeader__back {
+    display: none;
+  }
+
+  .chatMessages {
+    padding: 2rem;
+  }
+
+  .chatComposer {
+    padding: 1.5rem 2rem;
+  }
+
+  .message {
+    max-width: 60%;
+  }
 }
