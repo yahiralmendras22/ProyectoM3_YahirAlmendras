@@ -70,13 +70,14 @@ export function renderChat() {
                     ${renderStatus()}
                 </main>
 
-                <form class="chatComposer" id="chatComposer">
+                <form class="chatComposer" id="chatComposer" autocomplete="off">
                     <input
                         class="chatComposer__input"
                         id="chatInput"
                         type="text"
                         placeholder="Escribe un mensaje..."
                         aria-label="Escribe tu mensaje"
+                        autocomplete="off"
                         ${state.status === "loading" ? "disabled" : ""}
                     />
                     <button class="chatComposer__send" type="submit" ${state.status === "loading" ? "disabled" : ""}>
