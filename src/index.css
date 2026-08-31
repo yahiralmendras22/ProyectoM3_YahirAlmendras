@@ -26,7 +26,6 @@ body {
   background: #fdfbf7;
 }
 
-
 /* ========================================
             Navegación principal
    ======================================== */
@@ -54,7 +53,6 @@ body {
   color: #ffffff;
   background: #999185;
 }
-
 
 /* ========================================
     Layout principal del chat (mobile-first)
@@ -151,7 +149,6 @@ body {
   min-height: 0;
 }
 
-
 /* ========================================
         Header del Chat y Botón Volver
    ======================================== */
@@ -208,7 +205,6 @@ body {
   font-size: 0.85rem;
   color: #857d73;
 }
-
 
 /* ========================================
             Área de Mensajes y Composer
@@ -270,7 +266,6 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
 
 /* ========================================
             Mensajes (burbujas)
@@ -505,7 +500,6 @@ body {
   color: #857d73;
   border-top: 1px solid #e5e0da;
 }
-
 
 /* ========================================
             Media Queries (Responsive)
