@@ -77,6 +77,8 @@ body {
   overflow-x: auto;
   border-bottom: 1px solid #e5e0da;
   background: #fbf9f6;
+  /* Mantiene un desplazamiento suave en móviles */
+  -webkit-overflow-scrolling: touch; 
 }
 
 .chatSidebar__title {
@@ -95,8 +97,9 @@ body {
   align-items: center;
   gap: 0.25rem;
   flex-shrink: 0;
-  width: 4rem;
-  padding: 0.35rem;
+  width: auto; /* Cambiado de 4rem a auto para adaptarse al contenido */
+  min-width: 4.5rem;
+  padding: 0.35rem 0.5rem;
   background: transparent;
   border: 2px solid transparent;
   border-radius: 0.75rem;
@@ -119,13 +122,13 @@ body {
 }
 
 .chatSidebar__name {
-  max-width: 4rem;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #857d73;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal; /* Permite envolver el texto si es largo */
+  word-break: break-word; /* Rompe palabras largas si es necesario */
+  line-height: 1.1;
+  max-width: 5rem;
 }
 
 .chatSidebar__empty {
