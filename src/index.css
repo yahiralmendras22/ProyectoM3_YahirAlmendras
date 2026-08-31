@@ -26,8 +26,9 @@
   background: #999185;
 }
 
+
 /* ========================================
-                Reset mínimo            
+                Reset mínimo
    ======================================== */
 
 *,
@@ -39,7 +40,7 @@
 }
 
 html {
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 body {
@@ -48,16 +49,17 @@ body {
     -apple-system,
     "Segoe UI",
     sans-serif;
-  font-size: 1rem; 
+  font-size: 1rem;
   line-height: 1.5;
   color: #2d2a26;
   background: #fdfbf7;
 }
 
+
 /* ========================================
-   Layout principal del chat (mobile-first)
+    Layout principal del chat (mobile-first)
    ======================================== */
-   
+
 .chatApp {
   display: flex;
   flex-direction: column;
@@ -138,6 +140,25 @@ body {
   min-height: 0;
 }
 
+
+/* ========================================
+        FOTO DEL PERSONAJE EN EL HEADER
+   ======================================== */
+
+.chatHeader__avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e5e0da;
+  background: #ffffff;
+}
+
+
+/* ========================================
+                  Desktop
+   ======================================== */
+
 @media (min-width: 1024px) {
   body {
     background: #e5e0da;
@@ -203,8 +224,9 @@ body {
   }
 }
 
+
 /* ========================================
-           Mensajes (burbujas)
+            Mensajes (burbujas)
    ======================================== */
 
 .message {
@@ -227,8 +249,9 @@ body {
   color: #ffffff;
 }
 
+
 /* ========================================
-       Composer (input + boton)
+        Composer (input + boton)
    ======================================== */
 
 .chatComposer__input {
@@ -265,6 +288,7 @@ body {
   background: #7d766b;
 }
 
+
 /* ========================================
        Tablet: 768px en adelante
    ======================================== */
@@ -288,8 +312,9 @@ body {
   }
 }
 
+
 /* ========================================
-         Desktop: 1024px en adelante
+       Desktop: 1024px en adelante
    ======================================== */
 
 @media (min-width: 1024px) {
@@ -321,8 +346,9 @@ body {
   }
 }
 
+
 /* ========================================
-      View ( Home / About / NotFound )
+       View ( Home / About / NotFound )
    ======================================== */
 
 .view {
@@ -364,8 +390,9 @@ body {
   background: #7d766b;
 }
 
+
 /* ========================================
-      Estados del chat (nuevo en L3)
+       Estados del chat (nuevo en L3)
    ======================================== */
 
 .message--typing {
@@ -379,6 +406,7 @@ body {
   100% {
     opacity: 0.4;
   }
+
   50% {
     opacity: 0.9;
   }
@@ -417,8 +445,9 @@ body {
   background: #991b1b;
 }
 
+
 /* ========================================
-     Galería de personajes (Home)
+      Galería de personajes (Home)
    ======================================== */
 
 .characterGallery {
@@ -484,8 +513,9 @@ body {
   text-align: center;
 }
 
+
 /* ========================================
-      Sobre los personajes (About)
+       Sobre los personajes (About)
    ======================================== */
 
 .aboutList {
@@ -549,6 +579,11 @@ body {
   }
 }
 
+
+/* ========================================
+        Responsive adicional
+   ======================================== */
+
 @media (min-width: 768px) {
   .chatHeader {
     padding: 1.25rem 1.5rem;
@@ -571,6 +606,11 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+
+/* ========================================
+                 Footer
+   ======================================== */
 
 .footer {
   text-align: center;
