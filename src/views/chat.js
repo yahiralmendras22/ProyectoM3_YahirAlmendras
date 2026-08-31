@@ -1,11 +1,17 @@
 import { getCharacterReply } from "../services/aiClient.js";
 import { debounce, wait } from "../services/debounce.js";
 import { getUserMessage } from "../ui/messages.js";
-import { getSelectedCharacterId } from "../services/storage.js";
-import { CHARACTERS } from "../services/prompts.js"; 
+import {
+    getSelectedCharacterId,
+    setSelectedCharacterId,
+    getChatHistory,
+    setChatHistory,
+    getChattedCharacterIds,
+} from "../services/storage.js";
+import { CHARACTERS } from "../services/prompts.js";
 
 const state = {
-    characterId: "", 
+    characterId: "",
     messages: [],
     status: "idle",
     error: null,
@@ -15,18 +21,18 @@ const state = {
 
 export function renderChat() {
     const currentCharacter = getSelectedCharacterId() || "vegeta";
-    
+
     if (!state.characterId || state.characterId !== currentCharacter) {
         state.characterId = currentCharacter;
 
         const characterData = CHARACTERS.find(c => c.id === currentCharacter);
+        const savedHistory = getChatHistory(currentCharacter);
 
-        state.messages = [
-            {
-                role: "character",
-                text: characterData?.greeting || "Hola, ¿qué quieres saber?",
-            },
-        ];
+        state.messages =
+            savedHistory && savedHistory.length > 0
+                ? savedHistory
+                : [{ role: "character", text: characterData?.greeting || "Hola, ¿qué quieres saber?" }];
+
         state.status = "idle";
         state.error = null;
     }
@@ -36,50 +42,76 @@ export function renderChat() {
     const app = document.querySelector("#app");
     app.innerHTML = `
         <div class="chatApp">
-            <header class="chatHeader">
-                <div class="chatHeader__profile">
-                    
-                    <!-- Botón de regreso -->
-                    <a href="/" class="chatHeader__back" title="Volver al inicio">←</a>
-
-                    <!-- Avatar circular -->
-                    <img    
-                        class="chatHeader__avatar" 
-                        src="${characterData?.image || ''}" 
-                        alt="${characterData?.name || 'Personaje'}" 
-                    />
-                    
-                    <!-- Textos -->
-                    <div class="chatHeader__meta">
-                        <h1 class="chatHeader__title">Chat con ${characterData?.name || 'Tu personaje'}</h1>
-                        <p class="chatHeader__subtitle">${characterData?.tagline || ''}</p>
-                    </div>
+            <aside class="chatSidebar">
+                <h2 class="chatSidebar__title">Tus conversaciones</h2>
+                <div class="chatSidebar__list" id="chatSidebarList">
+                    ${renderSidebar()}
                 </div>
-            </header>
+            </aside>
 
-            <main class="chatMessages" id="chatMessages" aria-live="polite">
-                ${renderMessages()}
-                ${renderStatus()}
-            </main>
+            <div class="chatMain">
+                <header class="chatHeader">
+                    <div class="chatHeader__profile">
+                        <a href="/" class="chatHeader__back" title="Volver al inicio">←</a>
+                        <img
+                            class="chatHeader__avatar"
+                            src="${characterData?.image || ''}"
+                            alt="${characterData?.name || 'Personaje'}"
+                        />
+                        <div class="chatHeader__meta">
+                            <h1 class="chatHeader__title">Chat con ${characterData?.name || 'Tu personaje'}</h1>
+                            <p class="chatHeader__subtitle">${characterData?.tagline || ''}</p>
+                        </div>
+                    </div>
+                </header>
 
-            <form class="chatComposer" id="chatComposer">
-                <input
-                    class="chatComposer__input"
-                    id="chatInput"
-                    type="text"
-                    placeholder="Escribe un mensaje..."
-                    aria-label="Escribe tu mensaje"
-                    ${state.status === "loading" ? "disabled" : ""}
-                />
-                <button class="chatComposer__send" type="submit" ${state.status === "loading" ? "disabled" : ""}>
-                    Enviar
-                </button>
-            </form>
+                <main class="chatMessages" id="chatMessages" aria-live="polite">
+                    ${renderMessages()}
+                    ${renderStatus()}
+                </main>
+
+                <form class="chatComposer" id="chatComposer">
+                    <input
+                        class="chatComposer__input"
+                        id="chatInput"
+                        type="text"
+                        placeholder="Escribe un mensaje..."
+                        aria-label="Escribe tu mensaje"
+                        ${state.status === "loading" ? "disabled" : ""}
+                    />
+                    <button class="chatComposer__send" type="submit" ${state.status === "loading" ? "disabled" : ""}>
+                        Enviar
+                    </button>
+                </form>
+            </div>
         </div>
     `;
 
     setupChat();
     scrollToBottom();
+}
+
+function renderSidebar() {
+    const chattedIds = getChattedCharacterIds();
+
+    if (chattedIds.length === 0) {
+        return `<p class="chatSidebar__empty">Todavía no tenés conversaciones guardadas.</p>`;
+    }
+
+    return CHARACTERS.filter(c => chattedIds.includes(c.id))
+        .map(
+            (c) => `
+            <button
+                type="button"
+                class="chatSidebar__item ${c.id === state.characterId ? "chatSidebar__item--active" : ""}"
+                data-character-id="${c.id}"
+            >
+                <img class="chatSidebar__avatar" src="${c.image}" alt="${c.name}" />
+                <span class="chatSidebar__name">${c.name}</span>
+            </button>
+        `,
+        )
+        .join("");
 }
 
 function renderMessages() {
@@ -125,6 +157,11 @@ function escapeHtml(str) {
 
 function setState(updates) {
     Object.assign(state, updates);
+
+    if (updates.messages) {
+        setChatHistory(state.characterId, state.messages);
+    }
+
     renderChat();
 }
 
@@ -132,6 +169,7 @@ function setupChat() {
     const $form = document.querySelector("#chatComposer");
     const $input = document.querySelector("#chatInput");
     const $retry = document.querySelector("#retryBtn");
+    const $sidebarList = document.querySelector("#chatSidebarList");
 
     const debouncedSend = debounce(async () => {
         if (state.status === "loading") return;
@@ -154,13 +192,21 @@ function setupChat() {
         }
     });
 
+    $sidebarList.addEventListener("click", (event) => {
+        const $button = event.target.closest("[data-character-id]");
+        if (!$button) return;
+
+        const characterId = $button.dataset.characterId;
+        if (characterId === state.characterId) return;
+
+        setSelectedCharacterId(characterId);
+        state.characterId = ""; // fuerza a renderChat a recargar el historial de este personaje
+        renderChat();
+    });
+
     $input.focus();
 }
 
-// Intenta pedir la respuesta del personaje y, si tiene éxito, actualiza
-// el estado a "idle" con el mensaje agregado. Se usa tanto en el intento
-// inicial como en el reintento automático post-429, para no duplicar
-// el bloque de "éxito" en dos lugares distintos.
 async function attemptSend(nextMessages) {
     const reply = await getCharacterReply(state.characterId, nextMessages);
     setState({
@@ -183,7 +229,6 @@ async function sendMessage(text, isRetry = false) {
 
     try {
         await attemptSend(nextMessages);
-
     } catch (error) {
         if (error.status === 429) {
             const seconds = error.retryAfterSeconds ?? 5;
@@ -197,7 +242,6 @@ async function sendMessage(text, isRetry = false) {
                 setState({ status: "loading", retryCountdown: null });
                 await attemptSend(nextMessages);
                 return;
-
             } catch (errorRetry) {
                 setState({
                     status: "error",
