@@ -425,6 +425,71 @@ body {
   text-align: center;
 }
 
+/* ========================================
+      Sobre los personajes (About)
+   ======================================== */
+
+.aboutList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.aboutCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #e5e0da;
+  border-radius: 1rem;
+}
+
+.aboutCard__image {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #fbf9f6;
+  border: 1px solid #e5e0da;
+}
+
+.aboutCard__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutCard__name {
+  font-size: 1.05rem;
+  color: #2d2a26;
+}
+
+.aboutCard__tagline {
+  font-size: 0.8rem;
+  color: #999185;
+  margin-bottom: 0.35rem;
+}
+
+.aboutCard__desc {
+  font-size: 0.9rem;
+  color: #857d73;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .aboutCard {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .aboutCard__image {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
 @media (min-width: 768px) {
   .chatHeader {
     padding: 1.25rem 1.5rem;
