@@ -18,7 +18,15 @@ export function renderChat() {
     
     if (!state.characterId || state.characterId !== currentCharacter) {
         state.characterId = currentCharacter;
-        state.messages = [{ role: "character", text: "Hola, soy tu personaje favorito. Qué quieres saber?" }];
+
+        const characterData = CHARACTERS.find(c => c.id === currentCharacter);
+
+        state.messages = [
+            {
+                role: "character",
+                text: characterData?.greeting || "Hola, ¿qué quieres saber?",
+            },
+        ];
         state.status = "idle";
         state.error = null;
     }
