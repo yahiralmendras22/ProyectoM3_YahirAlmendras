@@ -198,20 +198,27 @@ body {
 .chatHeader__meta {
   display: flex;
   flex-direction: column;
+  gap: 0.35rem;
   min-width: 0;
 }
 
+.chatHeader__title,
+.chatHeader__subtitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .chatHeader__delete {
-  margin-left: auto;
-  flex-shrink: 0;
-  padding: 0.4rem 0.85rem;
+  align-self: flex-start;
+  padding: 0.3rem 0.85rem;
   font-family: inherit;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: #7d766b;
   background: transparent;
   border: 1px solid #999185;
-  border-radius: 2rem;
+  border-radius: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
@@ -603,11 +610,6 @@ body {
   .chatHeader {
     padding: 1.25rem 1.5rem;
   }
-
-  .chatHeader__delete {
-  font-size: 0.85rem;
-  padding: 0.5rem 1rem;
-}
 
   .chatMessages {
     padding: 1.5rem;

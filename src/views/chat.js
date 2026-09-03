@@ -77,10 +77,10 @@ export function renderChat() {
                         <div class="chatHeader__meta">
                             <h1 class="chatHeader__title">Chat con ${characterData?.name || 'Tu personaje'}</h1>
                             <p class="chatHeader__subtitle">${characterData?.tagline || ''}</p>
+                            <button class="chatHeader__delete" id="deleteChatBtn" type="button">
+                                Borrar Historial
+                            </button>
                         </div>
-                        <button class="chatHeader__delete" id="deleteChatBtn" type="button" title="Eliminar historial">
-                            Eliminar Historial
-                        </button>
                     </div>
                 </header>
 
