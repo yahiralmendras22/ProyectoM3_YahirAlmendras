@@ -19,8 +19,23 @@ const state = {
     retryCountdown: null,
 };
 
+// Cuando esto es true, el próximo renderChat() fuerza scroll al fondo
+// sin importar dónde estaba el usuario (ej: acaba de mandar un mensaje).
+let forceScrollToBottom = false;
+
 export function renderChat() {
     const currentCharacter = getSelectedCharacterId() || "vegeta";
+
+    // Medimos la posición de scroll ANTES de reconstruir el DOM,
+    // porque después de app.innerHTML = ... el elemento es nuevo
+    // y su scrollTop siempre arranca en 0.
+    const $prevMessages = document.querySelector("#chatMessages");
+    const wasNearBottom = $prevMessages
+        ? $prevMessages.scrollHeight - $prevMessages.scrollTop - $prevMessages.clientHeight < 150
+        : true; // primera carga: no hay nada que medir, asumimos "al fondo"
+
+    const shouldScrollToBottom = forceScrollToBottom || wasNearBottom;
+    forceScrollToBottom = false; // se consume en este render
 
     if (!state.characterId || state.characterId !== currentCharacter) {
         state.characterId = currentCharacter;
@@ -89,7 +104,7 @@ export function renderChat() {
     `;
 
     setupChat();
-    scrollToBottom();
+    scrollToBottom(shouldScrollToBottom);
 }
 
 function renderSidebar() {
@@ -221,6 +236,10 @@ async function attemptSend(nextMessages) {
 async function sendMessage(text, isRetry = false) {
     const nextMessages = isRetry ? state.messages : [...state.messages, { role: "user", text }];
 
+    // El usuario acaba de mandar un mensaje: siempre queremos verlo,
+    // sin importar en qué parte del historial estaba haciendo scroll.
+    forceScrollToBottom = true;
+
     setState({
         messages: nextMessages,
         status: "loading",
@@ -259,14 +278,11 @@ async function sendMessage(text, isRetry = false) {
     }
 }
 
-function scrollToBottom() {
+function scrollToBottom(shouldScroll) {
     const $messages = document.querySelector("#chatMessages");
     if (!$messages) return;
 
-    const wasNearBottom =
-        $messages.scrollHeight - $messages.scrollTop - $messages.clientHeight < 150;
-
-    if (wasNearBottom) {
+    if (shouldScroll) {
         $messages.scrollTop = $messages.scrollHeight;
     }
 }
