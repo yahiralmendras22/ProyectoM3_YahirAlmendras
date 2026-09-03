@@ -7,6 +7,7 @@ import {
     getChatHistory,
     setChatHistory,
     getChattedCharacterIds,
+    clearChatHistory,
 } from "../services/storage.js";
 import { CHARACTERS } from "../services/prompts.js";
 
@@ -77,6 +78,9 @@ export function renderChat() {
                             <h1 class="chatHeader__title">Chat con ${characterData?.name || 'Tu personaje'}</h1>
                             <p class="chatHeader__subtitle">${characterData?.tagline || ''}</p>
                         </div>
+                        <button class="chatHeader__delete" id="deleteChatBtn" type="button" title="Eliminar historial">
+                            Eliminar Historial
+                        </button>
                     </div>
                 </header>
 
@@ -186,6 +190,7 @@ function setupChat() {
     const $input = document.querySelector("#chatInput");
     const $retry = document.querySelector("#retryBtn");
     const $sidebarList = document.querySelector("#chatSidebarList");
+    const $deleteBtn = document.querySelector("#deleteChatBtn");
 
     const debouncedSend = debounce(async () => {
         if (state.status === "loading") return;
@@ -217,6 +222,26 @@ function setupChat() {
 
         setSelectedCharacterId(characterId);
         state.characterId = ""; // fuerza a renderChat a recargar el historial de este personaje
+        renderChat();
+    });
+
+    $deleteBtn.addEventListener("click", () => {
+        const characterData = CHARACTERS.find(c => c.id === state.characterId);
+        const confirmed = confirm(`¿Eliminar la conversación con ${characterData?.name}? No se puede deshacer.`);
+        if (!confirmed) return;
+
+        clearChatHistory(state.characterId);
+
+        state.messages = [
+            { role: "character", text: characterData?.greeting || "Hola, ¿qué quieres saber?" },
+        ];
+        state.status = "idle";
+        state.error = null;
+        state.lastUserMessage = null;
+
+        // Usamos renderChat() directo (no setState) para no volver a guardar
+        // el saludo inicial en localStorage: así el chat queda realmente
+        // sin historial hasta que el usuario escriba de nuevo.
         renderChat();
     });
 

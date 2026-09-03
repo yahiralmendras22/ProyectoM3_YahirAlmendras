@@ -28,3 +28,7 @@ export function getChattedCharacterIds() {
   }
   return ids;
 }
+
+export function clearChatHistory(characterId) {
+  localStorage.removeItem(CHAT_HISTORY_PREFIX + characterId);
+}

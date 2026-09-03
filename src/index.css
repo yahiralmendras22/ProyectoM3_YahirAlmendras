@@ -186,6 +186,45 @@ body {
 .chatHeader__back:active {
   transform: translateX(-1px) scale(0.96);
 }
+ 
+.chatHeader__profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.chatHeader__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.chatHeader__delete {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 0.4rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #7d766b;
+  background: transparent;
+  border: 1px solid #999185;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.chatHeader__delete:hover {
+  background: #e5e0da;
+  color: #2d2a26;
+}
+
+.chatHeader__delete:active {
+  background: #999185;
+  color: #ffffff;
+}
 
 .chatHeader__avatar {
   width: 3.5rem;
@@ -564,6 +603,11 @@ body {
   .chatHeader {
     padding: 1.25rem 1.5rem;
   }
+
+  .chatHeader__delete {
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+}
 
   .chatMessages {
     padding: 1.5rem;
