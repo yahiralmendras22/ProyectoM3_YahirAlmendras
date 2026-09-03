@@ -8,7 +8,7 @@ export function renderAbout() {
     app.innerHTML = `
         <div class="view">
             <h1>Sobre los personajes</h1>
-            <p>Conocé un poco más antes de empezar a chatear.</p>
+            <p>Conocé un poquito de cada uno antes de empezar a chatear.</p>
 
             <div class="aboutList" id="aboutList">
                 ${renderCharacterCards()}
